@@ -5,7 +5,6 @@ const zmqJsonRpcClient = require('zmq-json-rpc-client');
 const util = require('util');
 
 const options = yargs
-  .usage('Usage: -n <name>')
   .option('endpoint', { alias: 'e', describe: 'Zmq json rpc server endpoint or tcp port on localhost', type: 'string', demandOption: true })
   .option('method', { alias: 'm', describe: 'A String containing the name of the method to be invoked.', type: 'string', demandOption: true })
   .option('params', { alias: 'p', describe: 'A Structured value that holds the parameter values to be used during the invocation of the method. This member MAY be omitted.', type: 'string', demandOption: false })
