@@ -2,6 +2,11 @@
 
 Command line interface for [zmq-json-rpc-client](https://github.com/claudijo/zmq-json-rpc-client).
 
+## Installation
+Package not (yet) published on npm, so simple installation process as follows:
+Clone project, then cd to root folder and type `npm link` to install it globally
+
+## Help
 ```
 Options:
   --help          Show help                                            [boolean]
