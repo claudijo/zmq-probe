@@ -23,13 +23,14 @@ const client = zmqJsonRpcClient(endpoint, {
 });
 
 const callback = typeof options.id === 'undefined' ? undefined : (err, result) => {
+  client.socket.close();
+
   if (err) {
     console.error(err);
-    return process.exit(1);
+    return;
   }
 
   console.log(util.inspect(result, false, null, true));
-  process.exit(0);
 };
 
 let params;
@@ -50,5 +51,11 @@ if (options.file) {
 }
 
 client.emit(options.method, params, callback);
+
+if (!callback) {
+  process.nextTick(() => {
+    client.socket.close();
+  })
+}
 
 
