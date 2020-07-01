@@ -33,7 +33,7 @@ const callback = typeof options.id === 'undefined' ? undefined : (err, result) =
   console.log(util.inspect(result, false, null, true));
 };
 
-let params;
+let params = {};
 
 if (options.params) {
   params = JSON.parse(options.params);
