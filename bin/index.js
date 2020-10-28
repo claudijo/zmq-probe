@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const yargs = require('yargs');
+const parseDuration = require('parse-duration');
 const zmqJsonRpcClient = require('zmq-json-rpc-client');
 const util = require('util');
 const fs = require('fs');
@@ -12,14 +13,16 @@ const options = yargs
   .option('params', { alias: 'p', describe: 'A Structured value that holds the parameter values to be used during the invocation of the method. This member MAY be omitted.', type: 'string', demandOption: false })
   .option('file', { alias: 'f', describe: 'Path to json file that holds the parameter values to be used during invocation. This MAY be omitted', type: 'string', demandOption: false })
   .option('id', { alias: 'i', describe: 'An identifier established by the Client that MUST contain a String, Number, or NULL value if included. If it is not included it is assumed to be a notification.', type: 'sting', demandOption: false })
-  .option('timeout', { alias: 't', describe: 'Request timeout in ms. Defaults to 30000 ms', type: 'number', demandOption: false })
+  .option('timeout', { alias: 't', describe: 'Request timeout in natural language, eg 2m. Defaults to 30s', type: 'string', demandOption: false })
   .argv;
 
 const endpoint = /^[0-9]+$/.test(options.endpoint) ? `tcp://127.0.0.1:${options.endpoint}` : options.endpoint;
 
+const timeout = options.timeout ? parseDuration(options.timeout) : 30 * 1000;
+
 const client = zmqJsonRpcClient(endpoint, {
   nextId: () => options.id,
-  timeout: options.timeout,
+  timeout,
 });
 
 const callback = typeof options.id === 'undefined' ? undefined : (err, result) => {

@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "parse-duration": "^0.4.4",
     "yargs": "^15.1.0",
     "zmq-json-rpc-client": "0.0.1"
   }
