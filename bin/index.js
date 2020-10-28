@@ -33,20 +33,22 @@ const callback = typeof options.id === 'undefined' ? undefined : (err, result) =
   console.log(util.inspect(result, false, null, true));
 };
 
-let params = {};
-
-if (options.params) {
-  params = JSON.parse(options.params);
-}
+let params;
 
 if (options.file) {
   const filePath = path.isAbsolute(options.file) ? options.file : path.join(process.cwd(), options.file);
   const raw = fs.readFileSync(filePath);
-  const json = JSON.parse(raw);
+  params = JSON.parse(raw);
+}
 
-  params = {
-    ...params,
-    ...json,
+if (options.params) {
+  if (Array.isArray(params)) {
+    params.concat(JSON.parse(options.params))
+  } else {
+    params = {
+      ...params,
+      ...JSON.parse(options.params)
+    }
   }
 }
 
